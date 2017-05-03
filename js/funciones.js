@@ -126,6 +126,7 @@ function eliminaEstudiante(codigo) {
 //READY FUNCTION
 $(document).ready(function(){
 	console.log( "document loaded");
+    listarEstudiantes();
 	$("#add").click(function(){                       	
 		var r = confirm("Esta seguro que desea agregar este estudiante?");        
 		if (r == true) {            
