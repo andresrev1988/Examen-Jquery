@@ -1,85 +1,145 @@
-function calcularPromedio(json) {
-	try {   	
-    	var totalPromedio = 0.0;
-    	for (var i = 0; i < json.length; i++) {
-	        totalPromedio += json[i].nota;
-    	}    	
+function calcularPromedio() {
+	try {  
+		var estudiante;
+		var totalPromedio = 0.0;
+    	for (var i = 0; i < localStorage.length; i++) {
+	   	    var clave = localStorage.key(i);        	
+	   	    estudiante = $.parseJSON(localStorage.getItem(clave));			
+	   	    var nota = estudiante.nota;				   	    
+	   	    totalPromedio += Number.parseFloat(nota);  	   	                      
+    	}
     	totalPromedio=totalPromedio/i;  
-    	alert(parseFloat(totalPromedio).toFixed(2));  	        
+    	alert("El promedio es:"+parseFloat(totalPromedio).toFixed(2));  	        	 	    	       	
     } catch (error) {
 		alert("Existe un Error" + " - " + error.message);
 	}
 }
-
-function calcularMayor(json) {
-	try {
-    	var out = "Estudiante con Mayor Nota: ";    
-    	var indice=0;
-    	for (var i = 0; i < json.length; i++) {      		    		   	
-    		if( json[i].nota >= json[indice].nota){    			
-    			indice=i;    			
-			}	
-		}									
-        alert(out+json[indice].nombre);
-	} catch (error) {
-		alert("Existe un Error" + " - " + error.message);
-	}  	    		    
-}       
-
-
-function calcularMenor(json) {
-	try {
-    	var out = "Estudiante con Menor Nota: ";    
-    	var indice=0;
-    	for (var i = 0; i < json.length; i++) {      		    		   	
-    		if( json[i].nota <= json[indice].nota){    			
-    			indice=i;    			
-			}	
-		}									
-		alert(out+json[indice].nombre);
-	} catch (error) {
-		alert("Existe un Error" + " - " + error.message);
-	}  	   	    
-}
-
-function leerJSON(json) {	
-	try {			
-		for (var i = 0; i < json.length; i++) {
-			addrow(json[i].codigo,json[i].nombre,json[i].nota);	
-		}		
-	} catch (error) {
+function calcularMayor() {
+	try {  
+		var mayor;		
+		var indice = 0;
+    	for (var i = 0; i < localStorage.length; i++) {
+	   	    var clave = localStorage.key(i);        	
+	   	    var clave1 = localStorage.key(indice);
+	   	    var estudiante = $.parseJSON(localStorage.getItem(clave));			
+	   	    var estudiante1 = $.parseJSON(localStorage.getItem(clave1));
+	   	    var nota = Number.parseFloat(estudiante.nota);
+	   	    var nota1 = Number.parseFloat(estudiante1.nota);
+	   	    if(nota>=nota1){
+	   	    	indice=i;
+	   	    	mayor=estudiante.nombre;
+	   	    }				   	    	   	     
+    	}    	
+    	alert("El estudiante con mayor nota es:"+mayor);  	        	 	    	       	
+    } catch (error) {
 		alert("Existe un Error" + " - " + error.message);
 	}
 }
-
-function addrow(celda1,celda2,celda3) {
-	try {							
-    		var table = document.getElementById("Tabla");    		
-    		var row = table.insertRow(0);
-    		var cell1 = row.insertCell(0);
-    		var cell2 = row.insertCell(1);
-    		var cell3 = row.insertCell(2);
-    		cell1.innerHTML = celda1;
-    		cell2.innerHTML = celda2;
-    		cell3.innerHTML = celda3;
-    	} catch (error) {
-			alert("Existe un Error" + " - " + error.message);
-	}
-}
-function addJSON(json,codigo_var,nombre_var,nota_var) {	
-	try {	
-		json.push({codigo:""+codigo_var,nombre:nombre_var,nota:nota_var});						
-		return json;
-	} catch (error) {
+function calcularMenor() {
+	try {  
+		var menor;		
+		var indice = 0;
+    	for (var i = 0; i < localStorage.length; i++) {
+	   	    var clave = localStorage.key(i);        	
+	   	    var clave1 = localStorage.key(indice);
+	   	    var estudiante = $.parseJSON(localStorage.getItem(clave));			
+	   	    var estudiante1 = $.parseJSON(localStorage.getItem(clave1));
+	   	    var nota = Number.parseFloat(estudiante.nota);
+	   	    var nota1 = Number.parseFloat(estudiante1.nota);
+	   	    if(nota<nota1){
+	   	    	indice=i;
+	   	    	menor=estudiante.nombre;
+	   	    }				   	    	   	     
+    	}    	
+    	alert("El estudiante con menor nota es:"+menor);  	        	 	    	       	
+    } catch (error) {
 		alert("Existe un Error" + " - " + error.message);
 	}
 }
+///FUNCIONES LOCALSTORAGE
+function agregar(){
+		var codigo = $("#codigos").val();
+        var nombre = $("#nombres").val();
+        var nota = $("#notas").val();  
+        var num= Number.parseFloat(nota);                 
+ 		var estudiante = {
+                codigo: codigo,
+                nombre: nombre,
+                nota: num
+            };         
+        localStorage.setItem(codigo, JSON.stringify(estudiante));   
+        contador = localStorage.length + 1;
+        listarEstudiantes(); 
+        limpiar();       
+}
+//LISTAR Estudiantes
+function listarEstudiantes(){
+		var tabla = "";        		
+        tabla += '<table border="1">';
+        tabla += '<tr>';
+        tabla += '<th>CODIGO</th>';
+        tabla += ' <th>NOMBRE</th>';
+        tabla += '<th>NOTA</th>';
+        tabla += '<th>EDITAR</th>';
+        tabla += '<th>ELIMINAR</th>';
+        tabla += '</tr>';
+        for (var i = 0; i < localStorage.length; i++) {
+            var clave = localStorage.key(i);            
+            var estudiante = $.parseJSON(localStorage.getItem(clave));
+            tabla += '<tr>';
+            tabla += '<td>' + estudiante.codigo + '</td>';
+            tabla += '<td>' + estudiante.nombre + '</td>';
+            tabla += '<td>' + estudiante.nota + '</td>';
+            tabla += '<td><button onclick="editarEstudiante(\'' + estudiante.codigo + '\');">Editar</button></td>';
+            tabla += '<td><button onclick="eliminaEstudiante(\'' + estudiante.codigo + '\');">Eliminar</button></td>';
+            tabla += '</tr>';
+        }
+        tabla += '</table>';               
+        $("#tabla").html(tabla);
+}
+//FUNCION LIMPIAR
+function limpiar(){
+	$("#codigos").val("");
+	$("#nombres").val("");
+	$("#notas").val(""); 
+}
+//EDITAR
+function editarEstudiante(codigo) {
+    var estudiante;
+    for (var i = 0; i < localStorage.length; i++) {
+   	    var clave = localStorage.key(i);
+        if (clave == codigo) {
+			estudiante = $.parseJSON(localStorage.getItem(clave));
+			$("#codigos").val(estudiante.codigo);
+            $("#nombres").val(estudiante.nombre);
+            $("#notas").val(estudiante.nota);
+        }
+    }
+}
 
-function agregar(){      
-        var c = document.getElementById("codigos");
-        var no = document.getElementById("nombres");
-        var n = document.getElementById("notas");        
-        var num= Number.parseFloat(n.value);        
-        notas_curso=addJSON(notas_curso,c.value,no.value.toUpperCase(),num);
-        leerJSON(notas_curso);
-}	
+//BORRA
+function eliminaEstudiante(codigo) {
+        localStorage.removeItem(codigo);
+        listarEstudiantes();
+}
+
+//READY FUNCTION
+$(document).ready(function(){
+	console.log( "document loaded");
+	$("#add").click(function(){                       	
+		var r = confirm("Esta seguro que desea agregar este estudiante?");        
+		if (r == true) {            
+            agregar();    
+            var txt = "Agregado con Exito!";                                
+        }                     
+    });           
+	$("#promedio").click(function(){                       	   
+            calcularPromedio();           
+    });       
+    $("#mayor").click(function(){                       	   
+            calcularMayor();           
+    });       
+    $("#menor").click(function(){                       	   
+            calcularMenor();           
+    });       
+});
