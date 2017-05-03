@@ -1,0 +1,16 @@
+body{
+  background:url(../img/fondo.jpg);
+  color: white;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: rgba(0,0,0,0.7);
+}
+.lar{
+  height: 300px;
+  width: 100%;
+}
+.pq{
+  height: 150px;
+  width: 100%;
+}

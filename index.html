@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <!--Importar la fuente de los íconos de Google-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Importar la hojas de estilos de materialize css-->
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/customColors.css" type="text/css" rel="stylesheet" media="screen,projection"/>    
+    <script type="text/javascript" src="js/funciones.js"></script>
+	<title>Notas - Escuela</title>			
+</head>
+<body>
+    <div class="row">
+        <div class="s12 m12 l12 col">
+            <div class="row">
+                <div class="s12 m12 l12 col">
+                    <h1>Registro de Estudiantes</h1>	
+                    <div class="row">
+                        <form id="form1" class="col s4 m4 l4">             
+                            Código
+                            <input id="codigos" type="text" required>
+                            Nombre
+                            <input id="nombres" type="text" required>
+                            Nota
+                            <input id="notas" type="number" min="0" max="100" required>
+                            <button id="boton" type="submit" value="Submit" class="waves-effect waves-light btn">Agregar Estudiante</button>
+                        </form>                        
+                    </div> 
+                    <div class="row">
+                        <div class="s12 m12 l12 col">                                
+                            <a class="waves-effect waves-light btn" onclick="mostrarPromedio()">Nota Promedio</a>
+                            <a class="waves-effect waves-light btn" onclick="mostrarMayor()">Mayor Nota</a>
+                            <a class="waves-effect waves-light btn" onclick="mostrarMenor()">Menor Nota</a>
+                        </div>
+                    </div>                    
+                </div>
+            </div>                    
+            <div class="row">
+                <div class="s12 m12 l12 col">
+                <table >
+                    <thead>
+                        <tr>
+                            <th>CODIGO</th>
+                            <th>NOMBRE</th>
+                            <th>NOTA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Tabla">                        
+                    </tbody>
+                </table>                
+                </div>
+            </div>
+        </div>
+    </div>    
+    <script>
+
+    notas_curso = [
+
+    {
+        "codigo": "001",
+        "nombre": "DIEGO RUIZ",
+        "nota": 93
+    } ,
+    {
+        "codigo": "002",
+        "nombre": "JUAN BALAREZO",
+        "nota": 70
+    } ,  
+    {
+        "codigo": "003",
+        "nombre": "PEDRO RIOS",
+        "nota": 20
+    } ,  
+    {
+        "codigo": "004",
+        "nombre": "ANDRES REVELO",
+        "nota": 98
+    } ,  
+    {
+        "codigo": "005",
+        "nombre": "ROSSANA SERRANO",
+        "nota": 88
+    } ,  
+    {
+        "codigo": "006",
+        "nombre": "FRANCISCO CORTEZ",
+        "nota": 55
+    } ,  
+    {
+        "codigo": "007",
+        "nombre": "MARIO MALDONADO",
+        "nota": 91
+    } ,  
+    {
+        "codigo": "008",
+        "nombre": "LORENA MANCERO",
+        "nota": 76
+    } ,  
+    {
+        "codigo": "009",
+        "nombre": "CESAR SALINAS",
+        "nota": 45
+    } ,  
+    {
+        "codigo": "010",
+        "nombre": "JUAN CASTILLO",
+        "nota": 10
+    }  
+];    
+    
+document.getElementById("boton").addEventListener("click", function(){    
+        var txt;            
+        var r = confirm("Esta seguro que desea agregar este estudiante?");
+        if (r == true) {            
+            agregar();    
+            txt = "Agregado con Exito!";                                
+        }                     
+    });       
+                
+    function mostrarPromedio(){        
+        calcularPromedio(notas_curso);
+        }
+    function mostrarMayor(){
+        calcularMayor(notas_curso);
+    }
+    function mostrarMenor(){
+        calcularMenor(notas_curso);
+    }
+    </script>    
+    </body>
+</html>
